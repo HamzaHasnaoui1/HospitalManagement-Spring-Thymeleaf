@@ -2,9 +2,9 @@ package ma.formation.web;
 
 import lombok.AllArgsConstructor;
 import ma.formation.entities.Patient;
+import ma.formation.entities.Titre;
 import ma.formation.repositories.PatientRepository;
 import ma.formation.service.IHospitalServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 //classe qui va gérer les requetés http
@@ -20,7 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 public class PatientController {
     private PatientRepository patientRepository;
-    @Autowired
     IHospitalServiceImpl iHospitalService;
 
     @GetMapping(path= "/user/patients") //route
@@ -53,6 +52,7 @@ public class PatientController {
         patientRepository.deleteById(id);
         return "redirect:/user/patients?page="+page+"&keyword="+keyword;
     }
+
     @GetMapping(path="/admin/formPatients")
     public String formPatients(Model model){
         model.addAttribute("patient",new Patient());
@@ -68,40 +68,6 @@ public class PatientController {
         patientRepository.save(patient);
         return "redirect:/user/patients?page="+page+"&keyword="+keyword;
     }
-
-    @GetMapping(path="/")
-    public String home(){
-        return "home";
-    }
-
-    @GetMapping(path="/home")
-    public String home1(){
-        return "home";
-    }
-
-    @GetMapping(path="/reset_password")
-    public String reset_password(){
-        return "reset_password";
-    }
-
-
-    @GetMapping(path="/about_us")
-    public String about_us(){
-        return "about_us";
-    }
-
-    @GetMapping(path="/contact_us")
-    public String contact_us(){
-        return "contact_us";
-    }
-
-    @GetMapping(path="/user/index")
-    public String index(){
-        return "index";
-    }
-
-
-
 
 
     @GetMapping(path="/admin/EditPatient")

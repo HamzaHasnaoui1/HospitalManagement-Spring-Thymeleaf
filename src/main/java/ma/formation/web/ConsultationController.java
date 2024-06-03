@@ -6,7 +6,6 @@ import ma.formation.entities.RendezVous;
 import ma.formation.repositories.ConsultationRepository;
 import ma.formation.repositories.RendezVousRepository;
 import ma.formation.service.IHopitalService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -16,12 +15,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
 public class ConsultationController {
-    @Autowired
     ConsultationRepository consultationRepository;
     IHopitalService hopitalService;
     RendezVousRepository rendezVousRepository;
@@ -36,6 +35,7 @@ public class ConsultationController {
         model.addAttribute("currentPage", page);
         return "consultation/consultations";
     }
+
     @GetMapping(path="/admin/deleteConsultation")
     public String deleteConsultation(Long id,  int page){
         consultationRepository.deleteById(id);
@@ -81,4 +81,16 @@ public class ConsultationController {
         model.addAttribute("page", page);
         return "consultation/EditConsultation";
     }
+
+
+    @GetMapping(path = "/user/mafacture")
+    public String afficherFacture(Model model, Long id) {
+        Consultation consultation = consultationRepository.findById(id).orElse(null);
+        if (consultation == null) throw new RuntimeException("Consultation introuvable");
+
+        model.addAttribute("consultation", consultation);
+        return "facture";
+    }
+
+
 }
